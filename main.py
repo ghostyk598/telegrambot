@@ -1,8 +1,9 @@
 import telebot
+import os
 
 from config import token
 from logic import gen_pass
-from logic import imagedsa1
+from random import choice
 
 bot = telebot.TeleBot(token)
 
@@ -22,8 +23,16 @@ def send_heh(message):
 
 
 @bot.message_handler(commands=["dream"])
-def send_img(message):
-    bot.reply_to(message, imagedsa1)
+def send_photo(message):
+    image_rand = choice(os.listdir('image'))
+    with open(f'image/{image_rand}', 'rb') as photo:
+        bot.send_photo(message.chat.id, photo)
+
+@bot.message_handler(commands=["cat"])
+def send_photo(message):
+    image_rand = choice(os.listdir('cats'))
+    with open(f'cats/{image_rand}', 'rb') as photo:
+        bot.send_photo(message.chat.id, photo)
     
 
 
